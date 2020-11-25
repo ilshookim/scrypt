@@ -7,11 +7,9 @@
 
 #include <fmt/core.h>
 
-#include <cryptopp/gcm.h>
 #include <cryptopp/aes.h>
-#include <cryptopp/osrng.h>
-#include <cryptopp/pwdbased.h>
-#include <cryptopp/files.h>
+#include <cryptopp/modes.h>
+#include <cryptopp/filters.h>
 
 #include "build/config.h"
 
