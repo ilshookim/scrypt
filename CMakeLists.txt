@@ -25,7 +25,7 @@ include_directories(${PROJECT_BINARY_BIN})
 
 include_directories(./)
 
-set(MAIN_SRC main.cpp)
+set(MAIN_SRC crypto.cpp main.cpp)
 add_executable(scrypt ${MAIN_SRC})
 
 target_link_libraries(scrypt PRIVATE fmt::fmt)
