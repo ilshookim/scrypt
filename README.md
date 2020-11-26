@@ -23,3 +23,5 @@ std::string decrypted = Scrypt::decrypt("복호화 내용", key, iv);
 
 # 온라인에서 AES/CBC 사용법
 https://www.devglan.com/online-tools/aes-encryption-decryption
+- 자바에서 암호화를 하고 C++에서 복호화를 한 결과는
+- 온라인 AES/CBC 페이지에서 암호화하고 복호화를 한 결과가 동일해야 할 것입니다.
