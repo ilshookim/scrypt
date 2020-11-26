@@ -1,6 +1,8 @@
 # scrypt
 scrypt is a program for string cryptographic AES-CRC-Padding using cryptopp
 
+[빌드하는 방법](https://github.com/ilshookim/scrypt/blob/master/Build.md)을 참고할 수 있습니다.
+
 # AES/CBC 암호화/복호화
 안드로이드에서 AES/CBC으로 암호화한 전문을 C++모듈에서 복호화를 하고
 C++모듈에서 AES/CBC으로 암호화한 전문을 안드로이드에서 복호화가 가능한
