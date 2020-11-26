@@ -21,7 +21,7 @@ int main(int argc, char* argv[], char* envp[])
     try
     {
         std::string secret = "20201126T000101Z";
-        std::string plane = "{\"dummy\":\"my name is dummy\",\"version\":\"1.-1.99\",\"data\":{\"age\":50,\"address\":\"Seoul Seocho-Gu\",\"phone\":\"02-2007-8620\"},\"salary\":\"unknown\"}";
+        std::string plane = "{\"dummy\":\"my name is dummy\",\"version\":\"1.-1.99\",\"data\":{\"age\":50,\"address\":\"Seoul Seocho-Gu\",\"phone\":\"02-1234-5678\"},\"salary\":\"unknown\"}";
         std::vector<uint8_t> key(secret.begin(), secret.end()), iv(Scrypt::defaultBlockSize());
         assert(key.size() == Scrypt::defaultKeyLength());
         std::string encrypted = Scrypt::encrypt(plane, key, iv);
