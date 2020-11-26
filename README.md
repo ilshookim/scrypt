@@ -20,3 +20,6 @@ std::vector<uint8_t> key(secret.begin(), secret.end()), iv(Scrypt::defaultBlockS
 std::string encrypted = Scrypt::encrypt("암호화 내용", key, iv);
 std::string decrypted = Scrypt::decrypt("복호화 내용", key, iv);
 ~~~
+
+# 온라인에서 AES/CBC 사용법
+https://www.devglan.com/online-tools/aes-encryption-decryption
