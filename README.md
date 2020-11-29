@@ -1,6 +1,6 @@
 # scrypt
 
-scrypt is a program for string cryptographic AES-CBC-Padding using cryptopp.
+scrypt is a program for string cryptographic AES-CBC-Padding using cryptopp between JAVA and C++.
 
 [To build](https://github.com/ilshookim/scrypt/blob/master/Build.md).
 
