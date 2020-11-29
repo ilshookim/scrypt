@@ -1,5 +1,5 @@
 /*
-    Scrypt is a string crypto for AES-CRC-Padding designed by ilshookim
+    Scrypt is a string crypto for AES-CBC-Padding designed by ilshookim
     MIT License
 
     https://github.com/ilshookim/scrypt
