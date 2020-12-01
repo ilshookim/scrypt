@@ -11,17 +11,17 @@ Here, you can refer to the Java source and C++ source that can decrypt the text 
 # AES/CBC in JAVA (Android)
 ~~~
 public static String secretKey = "sixteen-password";
-AES256Chiper.AES_Encode("planeText");
+AES256Chiper.AES_Encode("plainText");
 AES256Chiper.AES_Decode("chiperText");
 ~~~
 
 # AES/CBC in C++
 ~~~
-std::string plain = "planeText";
+std::string plain = "plainText";
 std::string key = "sixteen-password";
-std::string encrypted = Scrypt::encrypt(plain, key);
-std::string decrypted = Scrypt::decrypt(encrypted, key);
-assert(decrypted == plain);
+std::string chiper = Scrypt::encrypt(plain, key);
+std::string recover = Scrypt::decrypt(chiper, key);
+assert(recover == plain);
 ~~~
 
 # AES/CBC in on-line
