@@ -17,10 +17,11 @@ AES256Chiper.AES_Decode("chiperText");
 
 # AES/CBC in C++
 ~~~
-std::string secretKey = "sixteen-password";
-std::vector<uint8_t> key(secretKey.begin(), secretKey.end()), iv(Scrypt::defaultBlockSize());
-std::string encrypted = Scrypt::encrypt("planeText", key, iv);
-std::string decrypted = Scrypt::decrypt("chiperText", key, iv);
+std::string plain = "planeText";
+std::string key = "sixteen-password";
+std::string encrypted = Scrypt::encrypt(plain, key);
+std::string decrypted = Scrypt::decrypt(encrypted, key);
+assert(decrypted == plain);
 ~~~
 
 # AES/CBC in on-line
