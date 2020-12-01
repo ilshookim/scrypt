@@ -8,40 +8,71 @@
 #include <cryptopp/aes.h>
 #include <cryptopp/modes.h>
 #include <cryptopp/filters.h>
+#include <cryptopp/base64.h>
 
 #include "crypto.h"
 
 namespace Scrypt {
 
-int32_t defaultKeyLength()
+std::string encrypt(std::string plain, std::string key, bool base64)
 {
-    return CryptoPP::AES::DEFAULT_KEYLENGTH;
+	std::string iv = "";
+	return encrypt(plain, key, iv, base64);
 }
 
-int32_t defaultBlockSize()
+std::string decrypt(std::string cipher, std::string key, bool base64)
 {
-    return CryptoPP::AES::BLOCKSIZE;
+	std::string iv = "";
+	return decrypt(cipher, key, iv, base64);
 }
 
-std::string encrypt(std::string& plain, std::vector<uint8_t>& key, std::vector<uint8_t>& iv)
+std::string encrypt(std::string plain, std::string key, std::string iv, bool base64)
 {
 	std::string encrypted;
-	CryptoPP::AES::Encryption encryption(key.data(), CryptoPP::AES::DEFAULT_KEYLENGTH);
-	CryptoPP::CBC_Mode_ExternalCipher::Encryption mode(encryption, iv.data());
-	CryptoPP::StreamTransformationFilter encryptor(mode, new CryptoPP::StringSink(encrypted));
-	encryptor.Put(reinterpret_cast<const unsigned char*>(plain.c_str()), plain.length());
-	encryptor.MessageEnd();
+	try {
+		CryptoPP::byte KEY[CryptoPP::AES::DEFAULT_KEYLENGTH] = { 0, };
+		CryptoPP::byte IV[CryptoPP::AES::BLOCKSIZE] = { 0x00, };
+		for (int i=0; i<key.length() && i<CryptoPP::AES::DEFAULT_KEYLENGTH; i++) KEY[i] = key[i];
+		for (int i=0; i<iv.length() && i<CryptoPP::AES::BLOCKSIZE; i++) IV[i] = iv[i];
+		CryptoPP::AES::Encryption encryption(KEY, CryptoPP::AES::DEFAULT_KEYLENGTH);
+		CryptoPP::CBC_Mode_ExternalCipher::Encryption mode(encryption, IV);
+		CryptoPP::StreamTransformationFilter encryptor(mode, new CryptoPP::StringSink(encrypted));
+		encryptor.Put(reinterpret_cast<const unsigned char*>(plain.c_str()), plain.length());
+		encryptor.MessageEnd();
+		if (base64) {
+			std::string encoded;
+			CryptoPP::StringSource(encrypted, true, new CryptoPP::Base64Encoder(new CryptoPP::StringSink(encoded)));
+			encrypted = encoded;
+		}
+	}
+    catch (...) {
+		encrypted.clear();
+    }
 	return encrypted;
 }
 
-std::string decrypt(std::string& cipher, std::vector<uint8_t>& key, std::vector<uint8_t>& iv)
+std::string decrypt(std::string cipher, std::string key, std::string iv, bool base64)
 {
 	std::string decrypted;
-	CryptoPP::AES::Decryption decryption(key.data(), CryptoPP::AES::DEFAULT_KEYLENGTH);
-	CryptoPP::CBC_Mode_ExternalCipher::Decryption mode(decryption, iv.data());
-	CryptoPP::StreamTransformationFilter decryptor(mode, new CryptoPP::StringSink(decrypted));
-	decryptor.Put(reinterpret_cast<const unsigned char*>(cipher.c_str()), cipher.size());
-	decryptor.MessageEnd();
+	try {
+		CryptoPP::byte KEY[CryptoPP::AES::DEFAULT_KEYLENGTH] = { 0, };
+		CryptoPP::byte IV[CryptoPP::AES::BLOCKSIZE] = { 0x00, };
+		for (int i=0; i<key.length() && i<CryptoPP::AES::DEFAULT_KEYLENGTH; i++) KEY[i] = key[i];
+		for (int i=0; i<iv.length() && i<CryptoPP::AES::BLOCKSIZE; i++) IV[i] = iv[i];
+		if (base64) {
+			std::string decoded;
+			CryptoPP::StringSource(cipher, true, new CryptoPP::Base64Decoder(new CryptoPP::StringSink(decoded)));
+			cipher = decoded;
+		}
+		CryptoPP::AES::Decryption decryption(KEY, CryptoPP::AES::DEFAULT_KEYLENGTH);
+		CryptoPP::CBC_Mode_ExternalCipher::Decryption mode(decryption, IV);
+		CryptoPP::StreamTransformationFilter decryptor(mode, new CryptoPP::StringSink(decrypted));
+		decryptor.Put(reinterpret_cast<const unsigned char*>(cipher.c_str()), cipher.size());
+		decryptor.MessageEnd();
+	}
+    catch (...) {
+		decrypted.clear();
+    }
 	return decrypted;
 }
 
